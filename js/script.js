@@ -35,14 +35,22 @@ $(function() {
     $('a[href^="#"]').click(function () {
       const speed = 500;
       const href = $(this).attr('href');
-
+      let $target;
+      if (href == '#') {
+        $target = $('html');
+      } else {
+        $target = $(href);
+      }
+      const position = $target.offset().top;
+      $('html, body').animate({'scrollTop': position}, speed, 'swing');
+      return false;
     });
 
     // スクロールした時にセクションをフェードインさせる
     $(window).scroll(function () {
-      // scrollTopでスクロールの縦位置を取得
+      // scrollTopでスクロールの縦位置（左上の位置）を取得
       const scrollAmount = $(window).scrollTop();
-      // heightで要素の高さ?を取得
+      // heightで要素の高さ（画面の上から下までの高さ）を取得
       const windowHeight = $(window).height();
       $('section').each(function () {
         // offset().topでセレクタのtop位置を取得
@@ -56,15 +64,16 @@ $(function() {
     // Worksの画像をクリックした時にモーダルで拡大表示する
     $('.works img').on('click', function () {
       const imgSrc = $(this).attr('src');
+      console.log(imgSrc);
       $('.big-img').attr('src', imgSrc);
       $('.modal').fadeIn();
-      return false
+      return false;
     });
 
     // 閉じるボタンをクリックした時にモーダルを閉じる
     $('.close-btn').click(function () {
       $('.modal').fadeOut();
-      return false
+      return false;
     });
 
 });
